@@ -61,6 +61,9 @@ export default function Home() {
             <a href="#pricing" className="hover:text-white">
               Pricing
             </a>
+            <a href="/submit" className="hover:text-white">
+              Submit project
+            </a>
           </div>
         </nav>
 
@@ -85,10 +88,10 @@ export default function Home() {
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a
-                href="#deploy"
+                href="/submit"
                 className="inline-flex h-12 items-center justify-center rounded-md border border-white/15 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
               >
-                Deploy notes
+                Submit project
               </a>
             </div>
           </div>
@@ -200,16 +203,14 @@ create_booking    -> blocked until confirmed`}</code>
       <section id="deploy" className="bg-[#11171c] px-6 py-12 text-white">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 rounded-lg border border-white/10 bg-white/5 p-6 md:flex-row md:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Ready for launch</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-normal">Push to GitHub, import on Vercel, add Stripe environment variables.</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Ready for review</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-normal">Subscribed users can send a project for SafeMCP analysis.</h2>
           </div>
           <a
-            href="https://vercel.com/new"
-            target="_blank"
-            rel="noreferrer"
+            href="/submit"
             className="inline-flex h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
           >
-            Open Vercel
+            Submit project
           </a>
         </div>
       </section>
