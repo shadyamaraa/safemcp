@@ -48,6 +48,21 @@ STRIPE_PRICE_STUDIO=price_...
 
 Secrets must stay server-side. Do not put `STRIPE_SECRET_KEY` or `OPENAI_API_KEY` in client components.
 
+## Project Submission Emails
+
+SafeMCP can send an email when a user submits a project.
+
+1. Create a Resend account or add the Resend integration in Vercel Marketplace.
+2. Add these environment variables:
+
+```text
+RESEND_API_KEY=re_...
+SUBMISSION_NOTIFY_EMAIL=you@example.com
+RESEND_FROM_EMAIL=SafeMCP <onboarding@resend.dev>
+```
+
+For production, verify a sending domain in Resend and replace `RESEND_FROM_EMAIL` with your own domain address.
+
 ## Deployment
 
 Recommended path:

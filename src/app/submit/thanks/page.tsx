@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 export default async function SubmitThanksPage({
   searchParams,
 }: {
-  searchParams: Promise<{ email?: string; projectUrl?: string; projectType?: string }>;
+  searchParams: Promise<{ email?: string; projectUrl?: string; projectType?: string; emailStatus?: string }>;
 }) {
   const params = await searchParams;
 
@@ -14,8 +14,17 @@ export default async function SubmitThanksPage({
         <CheckCircle2 className="text-emerald-300" size={34} aria-hidden="true" />
         <h1 className="mt-5 text-4xl font-semibold">Project received</h1>
         <p className="mt-4 text-sm leading-7 text-slate-300">
-          Your submission is ready for the manual SafeMCP review workflow. The next automated milestone is email/database storage for these requests.
+          Your submission is ready for the manual SafeMCP review workflow.
         </p>
+        {params.emailStatus === "sent" ? (
+          <p className="mt-4 rounded-md border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-sm text-emerald-100">
+            Email notification sent.
+          </p>
+        ) : (
+          <p className="mt-4 rounded-md border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-sm text-amber-100">
+            Email notification is not configured yet. Save this page or copy the project details.
+          </p>
+        )}
         <dl className="mt-6 grid gap-3 rounded-md border border-white/10 bg-slate-950/60 p-4 text-sm">
           <div>
             <dt className="text-slate-500">Email</dt>

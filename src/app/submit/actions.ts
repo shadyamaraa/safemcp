@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { sendProjectSubmissionEmail } from "@/lib/email";
 
 export type SubmitProjectState = {
   error?: string;
@@ -24,10 +25,18 @@ export async function submitProject(_previousState: SubmitProjectState, formData
     return { error: "Please use an HTTPS project or repository URL." };
   }
 
+  const emailStatus = await sendProjectSubmissionEmail({
+    email,
+    projectUrl,
+    projectType,
+    goal,
+  });
+
   const params = new URLSearchParams({
     email,
     projectUrl,
     projectType,
+    emailStatus,
   });
 
   redirect(`/submit/thanks?${params.toString()}`);
