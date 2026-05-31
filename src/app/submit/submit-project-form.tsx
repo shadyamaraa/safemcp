@@ -5,11 +5,13 @@ import { submitProject, type SubmitProjectState } from "./actions";
 
 const initialState: SubmitProjectState = {};
 
-export function SubmitProjectForm() {
+export function SubmitProjectForm({ sessionId }: { sessionId: string }) {
   const [state, formAction, pending] = useActionState(submitProject, initialState);
 
   return (
     <form action={formAction} className="grid gap-5 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <input type="hidden" name="sessionId" value={sessionId} />
+
       <label className="grid gap-2 text-sm font-medium text-slate-900">
         Contact email
         <input

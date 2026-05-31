@@ -1,8 +1,16 @@
 import Link from "next/link";
 import { ArrowLeft, LockKeyhole, ShieldCheck } from "lucide-react";
 import { SubmitProjectForm } from "./submit-project-form";
+import { isPaidCheckoutSession } from "@/lib/checkout";
 
-export default function SubmitProjectPage() {
+export default async function SubmitProjectPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ session_id?: string }>;
+}) {
+  const params = await searchParams;
+  const isPaid = await isPaidCheckoutSession(params.session_id);
+
   return (
     <main className="min-h-screen bg-[#f5f7f2] px-6 py-10 text-slate-950">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.85fr_1.15fr]">
@@ -30,7 +38,22 @@ export default function SubmitProjectPage() {
         </section>
 
         <section className="self-start">
-          <SubmitProjectForm />
+          {isPaid ? (
+            <SubmitProjectForm sessionId={params.session_id ?? ""} />
+          ) : (
+            <div className="rounded-lg border border-amber-200 bg-white p-6 shadow-sm">
+              <h2 className="text-2xl font-semibold">Subscribe first</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                Project submission opens after a successful Stripe checkout. Please choose a plan, complete payment, and return here automatically.
+              </p>
+              <Link
+                href="/#pricing"
+                className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-slate-950 px-5 text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                View pricing
+              </Link>
+            </div>
+          )}
         </section>
       </div>
     </main>

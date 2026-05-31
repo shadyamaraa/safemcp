@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { sendProjectSubmissionEmail } from "@/lib/email";
+import { isPaidCheckoutSession } from "@/lib/checkout";
 
 export type SubmitProjectState = {
   error?: string;
@@ -12,6 +13,12 @@ export async function submitProject(_previousState: SubmitProjectState, formData
   const projectUrl = String(formData.get("projectUrl") ?? "").trim();
   const projectType = String(formData.get("projectType") ?? "").trim();
   const goal = String(formData.get("goal") ?? "").trim();
+  const sessionId = String(formData.get("sessionId") ?? "").trim();
+
+  const isPaid = await isPaidCheckoutSession(sessionId);
+  if (!isPaid) {
+    return { error: "Please complete checkout before submitting a project." };
+  }
 
   if (!email || !projectUrl || !projectType || !goal) {
     return { error: "Please fill in every field before submitting your project." };
@@ -37,6 +44,7 @@ export async function submitProject(_previousState: SubmitProjectState, formData
     projectUrl,
     projectType,
     emailStatus,
+    session_id: sessionId,
   });
 
   redirect(`/submit/thanks?${params.toString()}`);
