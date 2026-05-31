@@ -1,15 +1,12 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function SuccessPage() {
-  return (
-    <main className="grid min-h-screen place-items-center bg-[#0b0f12] px-6 text-white">
-      <div className="max-w-md text-center">
-        <h1 className="text-4xl font-semibold">Subscription started</h1>
-        <p className="mt-4 text-slate-300">Stripe redirected back successfully. Next step: submit the project you want analyzed.</p>
-        <Link className="mt-8 inline-flex h-11 items-center rounded-md bg-emerald-400 px-5 text-sm font-semibold text-slate-950" href="/submit">
-          Submit your project
-        </Link>
-      </div>
-    </main>
-  );
+export default async function SuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ session_id?: string }>;
+}) {
+  const params = await searchParams;
+  const query = params.session_id ? `?session_id=${encodeURIComponent(params.session_id)}` : "";
+
+  redirect(`/submit${query}`);
 }
