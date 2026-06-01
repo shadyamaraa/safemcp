@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { sendProjectSubmissionEmail } from "@/lib/email";
 import { isPaidCheckoutSession } from "@/lib/checkout";
+import { saveProjectSubmission } from "@/lib/submissions";
 
 export type SubmitProjectState = {
   error?: string;
@@ -39,12 +40,22 @@ export async function submitProject(_previousState: SubmitProjectState, formData
     goal,
   });
 
+  const saveStatus = await saveProjectSubmission({
+    email,
+    projectUrl,
+    projectType,
+    goal,
+    stripeSessionId: sessionId,
+    emailStatus,
+  });
+
   const params = new URLSearchParams({
     email,
     projectUrl,
     projectType,
     goal,
     emailStatus,
+    saveStatus,
     session_id: sessionId,
   });
 

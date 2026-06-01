@@ -28,7 +28,8 @@ The current offer:
    - project type
    - AI/MCP goal
 8. App sends an email notification if Resend is configured.
-9. User sees `/submit/thanks` with the submitted details and an email-draft fallback.
+9. App saves the submission to Supabase if database env vars are configured.
+10. User sees `/submit/thanks` with the submitted details and an email-draft fallback.
 
 Direct access to `/submit` without a valid paid session now shows `Subscribe first`.
 
@@ -78,6 +79,13 @@ Direct access to `/submit` without a valid paid session now shows `Subscribe fir
   - user goal
 - If Resend is not configured, submission still completes with a warning message.
 
+### Database Storage
+
+- Supabase SDK installed.
+- `saveProjectSubmission` helper added.
+- Submissions are inserted into `project_submissions` if Supabase env vars are configured.
+- If Supabase is not configured, submission still completes with email/receipt fallback.
+
 ### GitHub And Vercel
 
 - Code pushed to:
@@ -109,6 +117,13 @@ RESEND_FROM_EMAIL=SafeMCP <onboarding@resend.dev>
 
 For production, verify a real sending domain in Resend and replace `RESEND_FROM_EMAIL`.
 
+### Optional For Database Storage
+
+```text
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=...
+```
+
 ## Verified
 
 - `npm run lint` passes.
@@ -118,13 +133,14 @@ For production, verify a real sending domain in Resend and replace `RESEND_FROM_
 - `/submit` blocks unpaid/direct access.
 - `/submit` shows form after valid checkout session.
 - `/submit/thanks` renders submitted project details.
+- `/submit/thanks` shows database save status.
 
 ## Current Limitations
 
 - No user accounts yet.
 - No customer dashboard yet.
-- No database yet.
-- Submission data is not persisted.
+- Database storage requires Supabase env vars.
+- No dashboard yet for viewing saved submissions.
 - Email notification depends on Resend env vars.
 - No Stripe webhook handling yet.
 - No automatic entitlement tracking beyond checking the checkout session.
@@ -154,19 +170,18 @@ Purpose:
 - track active/canceled subscriptions
 - prepare account/dashboard access
 
-### 3. Add Database
+### 3. Configure Supabase Database
 
-Recommended first database:
+- Create a Supabase project.
+- Create `project_submissions` table.
+- Add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
+- Redeploy.
+- Test submit flow and confirm `Submission saved to the database`.
 
-- Supabase Postgres
-
-Initial tables:
+Later tables:
 
 - `customers`
 - `subscriptions`
-- `project_submissions`
-
-Submission should be stored instead of only shown on the thanks page.
 
 ### 4. Add Authentication
 

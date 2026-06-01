@@ -4,7 +4,14 @@ import { CheckCircle2, Mail } from "lucide-react";
 export default async function SubmitThanksPage({
   searchParams,
 }: {
-  searchParams: Promise<{ email?: string; projectUrl?: string; projectType?: string; goal?: string; emailStatus?: string }>;
+  searchParams: Promise<{
+    email?: string;
+    projectUrl?: string;
+    projectType?: string;
+    goal?: string;
+    emailStatus?: string;
+    saveStatus?: string;
+  }>;
 }) {
   const params = await searchParams;
   const notifyEmail = process.env.SUBMISSION_NOTIFY_EMAIL;
@@ -38,6 +45,15 @@ export default async function SubmitThanksPage({
         ) : (
           <p className="mt-4 rounded-md border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-sm text-amber-100">
             Email notification is not configured yet. Save this page or copy the project details.
+          </p>
+        )}
+        {params.saveStatus === "saved" ? (
+          <p className="mt-3 rounded-md border border-sky-300/30 bg-sky-300/10 px-3 py-2 text-sm text-sky-100">
+            Submission saved to the database.
+          </p>
+        ) : (
+          <p className="mt-3 rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-300">
+            Database storage is not configured yet. Email and this receipt are the current backup.
           </p>
         )}
         <dl className="mt-6 grid gap-3 rounded-md border border-white/10 bg-slate-950/60 p-4 text-sm">

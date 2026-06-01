@@ -63,6 +63,37 @@ RESEND_FROM_EMAIL=SafeMCP <onboarding@resend.dev>
 
 For production, verify a sending domain in Resend and replace `RESEND_FROM_EMAIL` with your own domain address.
 
+## Database Storage
+
+Project submissions can be stored in Supabase Postgres.
+
+Add these server-side environment variables:
+
+```text
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=...
+```
+
+Create the table:
+
+```sql
+create table if not exists public.project_submissions (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  email text not null,
+  project_url text not null,
+  project_type text not null,
+  goal text not null,
+  stripe_session_id text not null,
+  email_status text not null,
+  status text not null default 'new'
+);
+
+alter table public.project_submissions enable row level security;
+```
+
+The app uses the Supabase service role key only on the server. Never expose it to client components.
+
 ## Deployment
 
 Recommended path:
