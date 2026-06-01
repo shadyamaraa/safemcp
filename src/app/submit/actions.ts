@@ -43,6 +43,7 @@ export async function submitProject(_previousState: SubmitProjectState, formData
     email,
     projectUrl,
     projectType,
+    goal,
     emailStatus,
     session_id: sessionId,
   });

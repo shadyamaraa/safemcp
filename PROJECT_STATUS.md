@@ -28,7 +28,7 @@ The current offer:
    - project type
    - AI/MCP goal
 8. App sends an email notification if Resend is configured.
-9. User sees `/submit/thanks`.
+9. User sees `/submit/thanks` with the submitted details and an email-draft fallback.
 
 Direct access to `/submit` without a valid paid session now shows `Subscribe first`.
 
@@ -64,6 +64,8 @@ Direct access to `/submit` without a valid paid session now shows `Subscribe fir
 - Hidden `sessionId` passed into the form
 - Server action re-checks paid session before accepting submission
 - `/submit/thanks` confirmation page
+- `/submit/thanks` shows submitted goal details
+- `/submit/thanks` includes an email-draft fallback when notification delivery needs manual follow-up
 
 ### Email Notification
 
